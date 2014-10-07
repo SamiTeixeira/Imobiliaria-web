@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"> 
+
+
+<h:head>
+	<title>Gerenciador de Proprietario</title>
+	<link type="text/css" rel="stylesheet" href="dot-luv/skin.css" />
+</h:head>
+<h:body>
+
+	<p:fieldset legend="Gerenciar Proprietario" toggleable="true"
+		toggleSpeed="500">
+		<h:form id="form">
+			<center>
+				<p:dataTable id="tabela" var="proprietario"
+					value="#{proprietarioPrime.allProprietario}" rowKey="#{proprietario.idproprietario}"
+					selectionMode="single" scrollable="true" scrollHeight="300"
+					scrollWidth="850" selection="#{proprietarioPrime.proprietarioSelecionado}">
+					<p:column headerText="Codigo" width="250">
+						<h:outputText value="#{proprietario.idproprietario}" />
+					</p:column>
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{proprietario.nome}" />
+					</p:column>
+					
+					<p:column headerText="CPF">
+						<h:outputText value="#{proprietario.cpf}" />
+					</p:column>
+					
+					<p:column headerText="Telefone">
+						<h:outputText value="#{proprietario.telefone}" />
+					</p:column>
+					
+					<p:column headerText="E-mail">
+						<h:outputText value="#{proprietario.email}" />
+					</p:column>
+					
+					<p:column headerText="Endereço">
+						<h:outputText value="#{proprietario.endereco}" />
+					</p:column>
+
+				</p:dataTable>
+			</center>
+		</h:form>
+		<center>
+			<p:commandButton value="Cadastrar" icon="ui-icon-document"
+				update=":pproprietario:displayCadastro" oncomplete="cadastro.show()" />
+
+			<p:commandButton value="Alterar" icon="ui-icon-search"
+				oncomplete="altera.show()" update=":pproprietarioA:displayaltera" />
+
+			<p:commandButton value="Deletar" icon="ui-icon-disk"
+				oncomplete="deleta.show()" update=":displaydeleta" />
+
+
+
+		</center>
+	</p:fieldset>
+
+	<p:growl id="menssagem" showDetail="true" life="3000" for="msg" />
+
+	<!--............................................................................DIALOGOS E FUNÇÕES-->
+	<!--CADASTRO Proprietario-->
+	<p:dialog id="dialogCadastro" header="Cadastro de Proprietario"
+		widgetVar="cadastro" resizable="false" width="500" showEffect="clip"
+		hideEffect="explode">
+		<h:form id="pproprietario">
+			<h:panelGrid id="displayCadastro" border='1' columns="2"
+				styleClass="panelGrid" rowClasses="panelFirstLine,panelNextLine">
+				<h:outputLabel value="Codigo" />
+				<p:inputText value="#{proprietarioPrime.proprietario.idproprietario}"
+					style=" width : 325px;" />
+
+				<h:outputLabel value="Nome" />
+				<p:inputText value="#{proprietarioPrime.proprietario.nome}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="CPF" />
+				<p:inputText value="#{proprietarioPrime.proprietario.cpf}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="Telefone" />
+				<p:inputText value="#{proprietarioPrime.proprietario.telefone}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="E-mail" />
+				<p:inputText value="#{proprietarioPrime.proprietario.email}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="Endereço" />
+				<p:inputText value="#{proprietarioPrime.proprietario.endereco}"
+					style=" width : 325px;" />
+
+				<p:commandButton value="Cadastrar" icon="ui-icon-search"
+					action="#{proprietarioPrime.salva()}"
+					update=":form:tabela,:menssagem" />
+
+			</h:panelGrid>
+			<br />
+		</h:form>
+	</p:dialog>
+	<script type="text/javascript">
+           function camposObrigatorios() {
+               jQuery('#form2').effect("shake", { times:3 }, 100);
+           }
+      </script>
+
+	<!-- Altera -->
+
+	<p:dialog id="dialogaltera" header="Altera" widgetVar="altera"
+		resizable="false" width="500" showEffect="clip" hideEffect="explode">
+		<h:form id="pproprietarioA">
+			<h:panelGrid id="displayaltera" border='1' columns="2"
+				styleClass="panelGrid" rowClasses="panelFirstLine,panelNextLine">
+				<h:outputLabel value="Codigo" />
+				<p:outputLabel value="#{proprietarioPrime.proprietarioSelecionado.idproprietario}"
+					style=" width : 325px;" />
+
+				<h:outputLabel value="Nome" />
+				<p:inputText value="#{proprietarioPrime.proprietarioSelecionado.nome}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="CPF" />
+				<p:inputText value="#{proprietarioPrime.proprietarioSelecionado.cpf}"
+					style=" width : 325px;" />
+				
+				<h:outputLabel value="Telefone" />
+				<p:inputText value="#{proprietarioPrime.proprietarioSelecionado.telefone}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="E-mail" />
+				<p:inputText value="#{proprietarioPrime.proprietarioSelecionado.email}"
+					style=" width : 325px;" />
+					
+				<h:outputLabel value="Endereço" />
+				<p:inputText value="#{proprietarioPrime.proprietarioSelecionado.endereco}"
+					style=" width : 325px;" />
+
+
+				<p:commandButton value="Alterar" icon="ui-icon-search"
+					action="#{proprietarioPrime.update()}"
+					update=":form:tabela,:menssagem" />
+
+
+
+
+			</h:panelGrid>
+			<br />
+		</h:form>
+	</p:dialog>
+
+
+
+	<!--DELEÇÂO DE CONTATO-->
+	<p:dialog id="dialogDeleta" header="Deletar Proprietario" widgetVar="deleta"
+		width="500" showEffect="clip" hideEffect="fold">
+		<h:panelGrid id="displaydeleta" columns="2" cellpadding="4">
+			<h:outputText value="Deseja exluir realmente o Fabricante?" />
+			<br />
+			<p:commandButton value="Sim" action="#{proprietarioPrime.delete()}"
+				update=":form:tabela,:menssagem" />
+			<p:commandButton value="Não" oncomplete="deleta.hide()"
+				update=":form:tabela,:menssagem" />
+		</h:panelGrid>
+	</p:dialog>
+
+
+</h:body>
+</html>
