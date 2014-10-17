@@ -49,10 +49,10 @@
 		</h:form>
 		<center>
 			<p:commandButton value="Cadastrar" icon="ui-icon-document"
-				update=":uusuario:displayCadastro" oncomplete="cadastro.show()" />
+				update=":jusuario:displayCadastro" oncomplete="cadastro.show()" />
 
 			<p:commandButton value="Alterar" icon="ui-icon-search"
-				oncomplete="altera.show()" update=":uusuarioA:displayaltera" />
+				oncomplete="altera.show()" update=":jusuarioA:displayaltera" />
 
 			<p:commandButton value="Deletar" icon="ui-icon-disk"
 				oncomplete="deleta.show()" update=":displaydeleta" />
@@ -69,7 +69,7 @@
 	<p:dialog id="dialogCadastro" header="Cadastro de Usuario"
 		widgetVar="cadastro" resizable="false" width="500" showEffect="clip"
 		hideEffect="explode">
-		<h:form id="uusuario">
+		<h:form id="jusuario">
 			<h:panelGrid id="displayCadastro" border='1' columns="2"
 				styleClass="panelGrid" rowClasses="panelFirstLine,panelNextLine">
 				<h:outputLabel value="Codigo" />
@@ -114,7 +114,7 @@
 
 	<p:dialog id="dialogaltera" header="Altera" widgetVar="altera"
 		resizable="false" width="500" showEffect="clip" hideEffect="explode">
-		<h:form id="uusuarioA">
+		<h:form id="jusuarioA">
 			<h:panelGrid id="displayaltera" border='1' columns="2"
 				styleClass="panelGrid" rowClasses="panelFirstLine,panelNextLine">
 				<h:outputLabel value="Codigo" />
