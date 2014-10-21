@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Gerenciador de Imovel</title>
+	<link type="text/css" rel="stylesheet" href="dot-luv/skin.css" />
+</h:head>
+<h:body>
+
+	<p:fieldset legend="Gerenciar Imovel" toggleable="true"
+		toggleSpeed="650">
+		<h:form id="form">
+			<center>
+				<p:dataTable id="tabela" var="imovel"
+					value="#{imovelPrime.allImovel}" rowKey="#{imovel.idImovel}"
+					selectionMode="single" scrollable="true" scrollHeight="225"
+					scrollWidth="850" selection="#{imovelPrime.imovelSelecionado}">
+					<p:column headerText="Codigo" width="150">
+						<h:outputText value="#{imovel.idImovel}" />
+					</p:column>
+
+					<p:column headerText="Área total do Imovel">
+						<h:outputText value="#{imovel.area}" />
+					</p:column>
+					
+					<p:column headerText="Área externa">
+						<h:outputText value="#{imovel.areaExterna}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de banheiro">
+						<h:outputText value="#{imovel.banheiro}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de cozinha">
+						<h:outputText value="#{imovel.cozinha}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de garagem">
+						<h:outputText value="#{imovel.garagem}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de quarto">
+						<h:outputText value="#{imovel.quarto}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de sala">
+						<h:outputText value="#{imovel.sala}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade de Área de Servico">
+						<h:outputText value="#{imovel.areaDeServico}" />
+					</p:column>
+					
+					
+					<p:column headerText="Tipo de Imovel">
+						<h:outputText value="#{imovel.tipoDeImovel.descricao}" />
+					</p:column>
+
+				</p:dataTable>
+			</center>
+		</h:form>
+		<center>
+			<p:commandButton value="Cadastrar" icon="ui-icon-document"
+				update=":iimovel:displayCadastro" oncomplete="cadastro.show()" />
+
+			<p:commandButton value="Alterar" icon="ui-icon-search"
+				oncomplete="altera.show()" update=":iimovelA:displayaltera" />
+
+			<p:commandButton value="Deletar" icon="ui-icon-disk"
+				oncomplete="deleta.show()" update=":displaydeleta" />
+
+
+
+		</center>
+	</p:fieldset>
+
+	<p:growl id="menssagem" showDetail="true" life="3000" for="msg" />
+
+	<!--............................................................................DIALOGOS E FUNÇÕES-->
+	<!--CADASTRO Imovel-->
+	<p:dialog id="dialogCadastro" header="Cadastro de Imovel"
+		widgetVar="cadastro" resizable="false" width="500" showEffect="clip"
+		hideEffect="explode">
+		<h:form id="iimovel">
+			<h:panelGrid id="displayCadastro" border='1' columns="2"
+				styleClass="panelGrid" rowClasses="panelFirstLine,panelNextLine">
+				<h:outputLabel value="Codigo" />
+				<p:inputText value="#{imovelPrime.imovel.idImovel}"
+					style=" width : 125px;" />
+
+				<h:outputLabel value="Área total do Imovel" />
+				<p:inputText value="#{imovelPrime.imovel.area}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Área externa" />
+				<p:inputText value="#{imovelPrime.imovel.areaExterna}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de banheiro" />
+				<p:inputText value="#{imovelPrime.imovel.banheiro}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de cozinha" />
+				<p:inputText value="#{imovelPrime.imovel.cozinha}"
+					style=" width : 225px;" />
+				
+				<h:outputLabel value="Quantidade de garagem" />
+				<p:inputText value="#{imovelPrime.imovel.garagem}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de quarto" />
+				<p:inputText value="#{imovelPrime.imovel.quarto}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de sala" />
+				<p:inputText value="#{imovelPrime.imovel.sala}"
+					style=" width : 225px;" />
+				
+				<h:outputLabel value="Quantidade de Área de Servico" />
+				<p:inputText value="#{imovelPrime.imovel.areaDeServico}"
+					style=" width : 225px;" />
+								
+				
+
+				<h:outputLabel value="Tipo de Imovel" />
+				<p:selectOneMenu id="tipoDeImovel"
+				
+					value="#{imovelPrime.imovel.tipoDeImovel}"
+					converter="entityConverter" effect="fade" var="i" filter="true" style="width:260px" panelStyle="width:250px"
+					filterMatchMode="startsWith">
+					<f:selectItem itemValue="" itemLabel="Selecione Tipo de Imovel" />
+					<f:selectItems value="#{imovelPrime.allTipoDeImovel}" var="tipoDeImovel"
+						itemLabel="#{tipoDeImovel.descricao}" itemValue="#{tipoDeImovel}" />
+						<p:column>
+						   #{i.idTipoDeImovel} - #{i.descricao}
+						</p:column>
+				</p:selectOneMenu>
+
+				<p:commandButton value="Cadastrar" icon="ui-icon-search"
+					action="#{imovelPrime.salva()}"
+					update=":form:tabela,:menssagem" />
+
+
+			</h:panelGrid>
+			<br />
+		</h:form>
+	</p:dialog>
+	<script type="text/javascript">
+           function camposObrigatorios() {
+               jQuery('#form2').effect("shake", { times:3 }, 100);
+           }
+      </script>
+
+	<!-- Altera -->
+
+	<p:dialog id="dialogaltera" header="Altera" widgetVar="altera"
+		resizable="false" width="500" showEffect="clip" hideEffect="explode">
+		<h:form id="iimovelA">
+			<h:panelGrid id="displayaltera" border='1' columns="2"
+				styleClass="panelGrid" rowClasses="panelFirstLine,panelNextLine">
+				<h:outputLabel value="Codigo" />
+				<p:outputLabel value="#{imovelPrime.imovelSelecionado.idImovel}"
+					style=" width : 225px;" />
+
+				<h:outputLabel value="Área total do Imovel" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.area}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Área externa" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.areaExterna}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de banheiro" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.banheiro}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de cozinha" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.cozinha}"
+					style=" width : 225px;" />
+				
+				
+				<h:outputLabel value="Quantidade de garagem" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.garagem}"
+					style=" width : 225px;" />
+				
+				<h:outputLabel value="Quantidade de quarto" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.quarto}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de sala" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.sala}"
+					style=" width : 225px;" />
+					
+				<h:outputLabel value="Quantidade de Área de Servico" />
+				<p:inputText value="#{imovelPrime.imovelSelecionado.areaDeServico}"
+					style=" width : 225px;" />
+					
+					
+			    <h:outputLabel value="Tipo de Imovel" />
+				<p:selectOneMenu id="tipoDeImovel"
+					value="#{imovelPrime.imovel.tipoDeImovel}"
+					converter="entityConverter" effect="fade" var="i" filter="true" style="width:260px" panelStyle="width:250px"
+					filterMatchMode="startsWith">
+					<f:selectItem itemValue="" itemLabel="Selecione Tipo de Imovel" />
+					<f:selectItems value="#{imovelPrime.allTipoDeImovel}" var="tipoDeImovel"
+						itemLabel="#{tipoDeImovel.descricao}" itemValue="#{tipoDeImovel}" />
+						<p:column>
+						   #{i.idTipoDeImovel} - #{i.descricao}
+						</p:column>
+				</p:selectOneMenu> 		
+
+
+				<p:commandButton value="Alterar" icon="ui-icon-search"
+					action="#{imovelPrime.update()}"
+					update=":form:tabela,:menssagem" />
+
+
+
+
+			</h:panelGrid>
+			<br />
+		</h:form>
+	</p:dialog>
+
+
+
+	<!--DELEÇÂO DE CONTATO-->
+	<p:dialog id="dialogDeleta" header="Deletar Imovel" widgetVar="deleta"
+		width="500" showEffect="clip" hideEffect="fold">
+		<h:panelGrid id="displaydeleta" columns="2" cellpadding="4">
+			<h:outputText value="Deseja exluir realmente o Imovel?" />
+			<br />
+			<p:commandButton value="Sim" action="#{imovelPrime.delete()}"
+				update=":form:tabela,:menssagem" />
+			<p:commandButton value="Não" oncomplete="deleta.hide()"
+				update=":form:tabela,:menssagem" />
+		</h:panelGrid>
+	</p:dialog>
+
+
+</h:body>
+</html>
